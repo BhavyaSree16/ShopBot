@@ -75,4 +75,25 @@ public class ProductPage extends BasePage {
     public String getProductDetailPrice() {
         return driver.findElement(By.className("inventory_details_price")).getText();
     }
+    
+ // Add first product to cart
+    public void addFirstProductToCart() {
+        driver.findElements(By.xpath("//button[text()='Add to cart']")).get(0).click();
+    }
+
+    // Add second product to cart
+    public void addSecondProductToCart() {
+        driver.findElements(By.xpath("//button[text()='Add to cart']")).get(1).click();
+    }
+
+    // Get cart badge count
+    public int getCartBadgeCount() {
+        String count = driver.findElement(By.className("shopping_cart_badge")).getText();
+        return Integer.parseInt(count);
+    }
+
+    // Go to cart page
+    public void goToCart() {
+        driver.findElement(By.className("shopping_cart_link")).click();
+    }
 }
