@@ -7,6 +7,7 @@
     </listeners>
 
     <!-- Module 1: Authentication -->
+    
     <test name="Login Tests">
         <classes>
             <class name="tests.LoginTest"/>
@@ -14,6 +15,7 @@
     </test>
 
     <!-- Module 2: Product -->
+    
     <test name="Product Tests">
         <classes>
             <class name="tests.ProductTest"/>
@@ -21,6 +23,7 @@
     </test>
 
     <!-- Module 3: Cart -->
+    
     <test name="Cart Tests">
         <classes>
             <class name="tests.CartTest"/>
@@ -28,6 +31,7 @@
     </test>
 
     <!-- Module 4: Checkout -->
+    
     <test name="Checkout Tests">
         <classes>
             <class name="tests.CheckoutTest"/>
@@ -35,6 +39,7 @@
     </test>
 
     <!-- Module 5: Problem User -->
+    
     <test name="Problem User Tests">
         <classes>
             <class name="tests.ProblemUserTest"/>
