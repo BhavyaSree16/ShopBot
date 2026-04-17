@@ -14,16 +14,19 @@ public class ProductPage extends BasePage {
         super(driver);
     }
 
-    // 🔹 Existing Locators (Logout)
+    // Locators
     private By menuBtn = By.id("react-burger-menu-btn");
     private By logoutBtn = By.id("logout_sidebar_link");
 
-    // 🔹 New Locators (Products)
     private By productNames = By.className("inventory_item_name");
     private By productPrices = By.className("inventory_item_price");
     private By sortDropdown = By.className("product_sort_container");
 
-    // 🔹 Logout Actions
+    private By addToCartButtons = By.xpath("//button[text()='Add to cart']");
+    private By cartBadge = By.className("shopping_cart_badge");
+    private By cartIcon = By.className("shopping_cart_link");
+
+    // Logout
     public void clickMenu() {
         click(menuBtn);
     }
@@ -32,7 +35,7 @@ public class ProductPage extends BasePage {
         click(logoutBtn);
     }
 
-    // 🔹 Get all product names
+    // Product list
     public List<String> getProductNames() {
         List<WebElement> elements = driver.findElements(productNames);
         List<String> names = new ArrayList<>();
@@ -43,7 +46,6 @@ public class ProductPage extends BasePage {
         return names;
     }
 
-    // 🔹 Get all product prices
     public List<Double> getProductPrices() {
         List<WebElement> elements = driver.findElements(productPrices);
         List<Double> prices = new ArrayList<>();
@@ -55,19 +57,18 @@ public class ProductPage extends BasePage {
         return prices;
     }
 
-    // 🔹 Select sorting option
+    // Sorting
     public void selectSortOption(String value) {
         org.openqa.selenium.support.ui.Select select =
                 new org.openqa.selenium.support.ui.Select(driver.findElement(sortDropdown));
         select.selectByValue(value);
     }
 
-    // 🔹 Click first product
+    // Product detail
     public void clickFirstProduct() {
         driver.findElements(productNames).get(0).click();
     }
 
-    // 🔹 Product detail page
     public String getProductDetailName() {
         return driver.findElement(By.className("inventory_details_name")).getText();
     }
@@ -75,25 +76,48 @@ public class ProductPage extends BasePage {
     public String getProductDetailPrice() {
         return driver.findElement(By.className("inventory_details_price")).getText();
     }
-    
- // Add first product to cart
+
+    // Cart actions
     public void addFirstProductToCart() {
-        driver.findElements(By.xpath("//button[text()='Add to cart']")).get(0).click();
+        driver.findElements(addToCartButtons).get(0).click();
     }
 
-    // Add second product to cart
     public void addSecondProductToCart() {
-        driver.findElements(By.xpath("//button[text()='Add to cart']")).get(1).click();
+        driver.findElements(addToCartButtons).get(1).click();
     }
 
-    // Get cart badge count
     public int getCartBadgeCount() {
-        String count = driver.findElement(By.className("shopping_cart_badge")).getText();
+        String count = driver.findElement(cartBadge).getText();
         return Integer.parseInt(count);
     }
 
-    // Go to cart page
     public void goToCart() {
-        driver.findElement(By.className("shopping_cart_link")).click();
+        driver.findElement(cartIcon).click();
+    }
+
+    // Problem user methods
+    public boolean areImagesBroken() {
+
+        List<WebElement> images = driver.findElements(By.className("inventory_item_img"));
+
+        for (WebElement img : images) {
+            String src = img.findElement(By.tagName("img")).getAttribute("src");
+
+            if (src == null || src.contains("sl-404")) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public int getCartCountSafe() {
+
+        List<WebElement> badge = driver.findElements(cartBadge);
+
+        if (badge.size() == 0) {
+            return 0;
+        }
+
+        return Integer.parseInt(badge.get(0).getText());
     }
 }
